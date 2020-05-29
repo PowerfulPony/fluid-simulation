@@ -6,7 +6,6 @@ const READONLY = 'readonly';
 module.exports = {
   root: true,
   env: {
-    node: true,
     browser: true,
   },
   plugins: ['import'],

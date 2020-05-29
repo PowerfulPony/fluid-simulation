@@ -1,3 +1,4 @@
+
 window.particleSize = 5;
 window.restDensity = 1;
 window.gravity = 0.05;
@@ -9,13 +10,15 @@ gui.add(window, 'restDensity', 0.1, 5.0);
 gui.add(window, 'gravity', 0, 0.2);
 gui.add(window, 'smoothing', 0, 1);
 
-// gee animation: https://github.com/georgealways/gee
-const g = new GEE({
-  context: '2d',
-  fullscreen: true,
-  container: document.body,
-});
-const { ctx } = g;
+const canvas = document.getElementById('canvas');
+const ctx = canvas.getContext('2d');
+
+function onResize() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+onResize();
+window.addEventListener('resize', onResize, false);
 
 function Particle(x, y, u, v) {
   this.x = x;
@@ -53,8 +56,8 @@ function Node() {
 // initialize
 const particles = [];
 const grid = [];
-for (let i = 0; i < 10; i += 1) {
-  for (let j = 0; j < 10; j += 1) {
+for (let i = 0; i < 40; i += 1) {
+  for (let j = 0; j < 40; j += 1) {
     particles.push(new Particle(i, j, 0.1, 0));
   }
 }
@@ -87,16 +90,11 @@ minY = Math.floor(minY - 1);
 maxX = Math.floor(maxX + 3);
 maxY = Math.floor(maxY + 3);
 
-let clearLeft;
-let clearRight;
-let clearTop;
-let clearBottom;
-
 let wx = window.screenX;
 let wy = window.screenY;
-g.draw = function render() {
-  const bx = g.width / window.particleSize - 1;
-  const by = g.height / window.particleSize - 1;
+function render() {
+  const bx = canvas.width / window.particleSize - 1;
+  const by = canvas.height / window.particleSize - 1;
   grid.length = 0;
   gsizeY = Math.floor(maxY - minY);
 
@@ -274,17 +272,9 @@ g.draw = function render() {
   minY = Math.floor(minY - 1);
   maxX = Math.floor(maxX + 3);
   maxY = Math.floor(maxY + 3);
-  ctx.clearRect(
-    clearLeft - 1,
-    clearTop - 1,
-    clearRight - clearLeft + 2,
-    clearBottom - clearTop + 2,
-  );
-  clearLeft = particles[0].x;
-  clearTop = particles[0].y;
-  clearRight = clearLeft;
-  clearBottom = clearTop;
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
   ctx.lineWidth = 1;
+  ctx.fillStyle = '#000000cc';
   ctx.beginPath();
   for (let i = 0; i < particleCount; i += 1) {
     const p = particles[i];
@@ -294,26 +284,18 @@ g.draw = function render() {
     const y2 = (p.y - p.gv) * window.particleSize;
     ctx.moveTo(x1, y1);
     ctx.lineTo(x2, y2);
-    if (x1 < clearLeft) {
-      clearLeft = x1;
-    } else if (x1 > clearRight) {
-      clearRight = x1;
-    }
-    if (x2 < clearLeft) {
-      clearLeft = x2;
-    } else if (x2 > clearRight) {
-      clearRight = x2;
-    }
-    if (y1 < clearTop) {
-      clearTop = y1;
-    } else if (y1 > clearBottom) {
-      clearBottom = y1;
-    }
-    if (y2 < clearTop) {
-      clearTop = y2;
-    } else if (y2 > clearBottom) {
-      clearBottom = y2;
-    }
+    ctx.fillRect(
+      x1 - window.particleSize,
+      y1 - window.particleSize,
+      window.particleSize,
+      window.particleSize,
+    );
   }
   ctx.stroke();
-};
+
+  window.requestAnimationFrame(() => {
+    render();
+  });
+}
+
+render();
