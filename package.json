@@ -1,7 +1,7 @@
 {
   "name": "fluid-simulation",
   "version": "0.0.1",
-  "main": "src/fluid.js",
+  "author": "Victor Zakharenko <victor@pony.ninja>",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/PowerfulPony/fluid-simulation.git"
@@ -13,13 +13,20 @@
     "water",
     "simulation"
   ],
-  "author": "Victor Zakharenko <victor@pony.ninja>",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/PowerfulPony/fluid-simulation/issues"
   },
   "homepage": "https://github.com/PowerfulPony/fluid-simulation#readme",
+  "main": "src/fluid.js",
+  "scripts": {
+    "lint": "eslint ./src --ext .js"
+  },
   "devDependencies": {
-    "dat.gui": "^0.7.7"
+    "dat.gui": "^0.7.7",
+    "eslint": "^7.1.0",
+    "eslint-config-airbnb-base": "^14.1.0",
+    "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-sonarjs": "^0.5.0"
   }
 }
