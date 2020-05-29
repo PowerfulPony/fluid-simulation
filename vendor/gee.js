@@ -21,18 +21,18 @@ window.GEE = function (params) {
   const _this = this;
   const _keysDown = {};
   const _privateParts =	{
-    ctx:	undefined,
+    ctx: undefined,
     domElement: undefined,
-    width:	undefined,
-    height:	undefined,
+    width: undefined,
+    height: undefined,
     desiredFrameTime: 1E3 / 60,
     frameCount: 0,
-    key:	undefined,
+    key: undefined,
     keyCode: undefined,
     mouseX: 0,
     mouseY: 0,
-    pmouseX:	undefined,
-    pmouseY:	undefined,
+    pmouseX: undefined,
+    pmouseY: undefined,
     mousePressed: false,
   };
   let _actualFrameTime;
@@ -185,79 +185,19 @@ window.GEE = function (params) {
       return false;
     },
   });
-  // Listeners
 
-  d.addEventListener('mouseenter', (e) => {
-    getOffset();
-  }, false);
-  const fireMouseMove = function (e) {
-    _this.mousemove();
-  };
-  const updateMousePosition = function (e) {
-    const x = e.pageX - offset.x;
-    const y = e.pageY - offset.y;
-    if (_privateParts.pmouseX == undefined) {
-      _privateParts.pmouseX = x;
-      _privateParts.pmouseY = y;
-    } else {
-      _privateParts.pmouseX = _privateParts.mouseX;
-      _privateParts.pmouseY = _privateParts.mouseY;
-    }
-    _privateParts.mouseX = x;
-    _privateParts.mouseY = y;
-  };
-  d.addEventListener('mousemove', updateMousePosition, false);
-  d.addEventListener('mousemove', fireMouseMove, false);
-
-  d.addEventListener('mousedown', () => {
-    _privateParts.mousePressed = true;
-    _this.mousedown();
-    d.addEventListener('mousemove', _this.mousedrag, false);
-    d.removeEventListener('mousemove', fireMouseMove, false);
-  }, false);
-  d.addEventListener('mouseup', () => {
-    _privateParts.mousePressed = false;
-    _this.mouseup();
-    d.removeEventListener('mousemove', _this.mousedrag, false);
-    d.addEventListener('mousemove', fireMouseMove, false);
-  }, false);
-  window.addEventListener('keydown', (e) => {
-    const kc = e.keyCode;
-    _privateParts.key = String.fromCharCode(kc); // Kinda busted.
-    _privateParts.keyCode = kc;
-    _keysDown[kc] = true;
-    _this.keydown();
-  }, false);
-  window.addEventListener('keyup', (e) => {
-    const kc = e.keyCode;
-    _privateParts.key = String.fromCharCode(kc); // Kinda busted.
-    _privateParts.keyCode = kc;
-    _keysDown[kc] = false;
-    _this.keyup();
-  }, false);
   // Internal loop.
-
-  const requestAnimationFrame = (function () {
-    return window.requestAnimationFrame
-		|| window.webkitRequestAnimationFrame
-		|| window.mozRequestAnimationFrame
-		|| window.oRequestAnimationFrame
-		|| window.msRequestAnimationFrame
-		|| function (callback) {
-		  window.setTimeout(callback, _actualFrameTime);
-		};
-  }());
-  _idraw = function () {
+  _idraw = function (time) {
     if (_this.loop) {
       requestAnimationFrame(_idraw);
     }
 
-    _privateParts.frameCount++;
-    const prev = new Date().getTime();
+    _privateParts.frameCount += 1;
+    const prev = time;
 
     _this.draw();
 
-    const delta = new Date().getTime() - prev;
+    const delta = performance.now() - prev;
 
     if (delta > _privateParts.desiredFrameTime) {
       _actualFrameTime = delta;

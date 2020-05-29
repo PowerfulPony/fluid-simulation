@@ -1,6 +1,7 @@
 const OFF = 'off';
 const ERROR = 'error';
 const PRODUCTION = 'production';
+const READONLY = 'readonly';
 
 module.exports = {
   root: true,
@@ -20,5 +21,9 @@ module.exports = {
   },
   parserOptions: {
     parser: 'babel-eslint',
+  },
+  globals: {
+    dat: READONLY,
+    GEE: READONLY,
   },
 };
