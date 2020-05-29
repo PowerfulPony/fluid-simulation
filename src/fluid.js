@@ -295,18 +295,6 @@ window.onload = function() {
 			}
 			ctx.stroke();
 	};
-	g.mousedrag = function() {
-		with (g) {
-		}
-	};
-	g.mousedown = function() {
-		with (g) {
-		}
-	};
-	g.mouseup = function() {
-		with (g) {
-		}
-	};
 }
 function Particle(x, y, u, v) {
 	this.x = x;
