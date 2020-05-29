@@ -1,0 +1,25 @@
+{
+  "name": "fluid-simulation",
+  "version": "0.0.1",
+  "main": "src/fluid.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PowerfulPony/fluid-simulation.git"
+  },
+  "keywords": [
+    "js",
+    "fluid",
+    "liquid",
+    "water",
+    "simulation"
+  ],
+  "author": "Victor Zakharenko <victor@pony.ninja>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/PowerfulPony/fluid-simulation/issues"
+  },
+  "homepage": "https://github.com/PowerfulPony/fluid-simulation#readme",
+  "devDependencies": {
+    "dat.gui": "^0.7.7"
+  }
+}

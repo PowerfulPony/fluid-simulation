@@ -9,7 +9,7 @@ window.onload = function() {
 	this.gravity = .05;
 	this.smoothing = 1;
 
-	var gui = new DAT.GUI();
+	var gui = new dat.GUI();
 	gui.add(this, "particleSize", 0, 100);
 	gui.add(this, "restDensity", 0.1, 5.0);
 	gui.add(this, "stiffness", 0, 1);
@@ -179,7 +179,7 @@ window.onload = function() {
 			if (n.m > 0.0) {
 				n.ax /= n.m;
 				n.ay /= n.m;
-				//n.ay += gravity;
+				n.ay += gravity;
                 n.ax += accelX;
                 n.ay += accelY;
 			}
